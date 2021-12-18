@@ -6,6 +6,7 @@ import { loginUser } from "../../Redux/Actions/user";
 import { Link, Redirect } from "react-router-dom";
 import bg01 from "../../Supports/Images/bg-01.jpg";
 import Footer from "../../Components/Footer";
+import ForgetPassword from "../Change Password/ForgetPassword";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -18,17 +19,8 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
-    console.log("dispatch");
     dispatch(loginUser(username, password));
   };
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem("userToken");
-  //   console.log(token);
-  //   if (token) {
-  //     return <Redirect to="/" />;
-  //   }
-  // }, []);
 
   return (
     <>
@@ -44,6 +36,12 @@ const Login = () => {
         <div className="flex-w flex-tr">
           <div className="size-210 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md">
             <h4 className="mtext-105 cl2 txt-center p-b-30">Login</h4>
+
+            {dataLogin.error ? (
+              <div class="alert alert-danger" role="alert">
+                {dataLogin.error}
+              </div>
+            ) : null}
 
             <div className="bor8 m-b-20 how-pos4-parent">
               <input
@@ -75,9 +73,10 @@ const Login = () => {
               </span>
             </div>
 
-            <p className="stext-115 cl6 size-213">
-              <Link to="/"></Link>
-              Forgot password?
+            <p className="stext-115 cl6 txt-right">
+              <Link to="/forget-password" style={{ color: "#888" }}>
+                Forgot password?
+              </Link>
             </p>
 
             <button
@@ -100,7 +99,9 @@ const Login = () => {
             </button>
 
             <p className="stext-115 cl6 size-213 ">
-              <Link to="/register">Don't have an account? Sign up</Link>
+              <Link to="/register" style={{ color: "#888" }}>
+                Don't have an account? Sign up
+              </Link>
             </p>
           </div>
 

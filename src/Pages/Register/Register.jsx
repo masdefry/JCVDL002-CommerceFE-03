@@ -126,7 +126,9 @@ const Register = () => {
             </button>
 
             <p className="stext-115 cl6 size-213 ">
-              <Link to="/login">Have an account? Sign in</Link>
+              <Link to="/login" style={{ color: "#888" }}>
+                Have an account? Sign in
+              </Link>
             </p>
           </div>
           <div

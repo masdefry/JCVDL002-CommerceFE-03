@@ -10,10 +10,7 @@ export const loginUser = (username, password) => {
       .then((result) => {
         if (result.data) {
           console.log(result.data);
-          localStorage.setItem(
-            "userToken",
-            JSON.stringify(result.data.data.token)
-          );
+          localStorage.setItem("userToken", result.data.data.token);
 
           dispatch({
             type: "USER_LOGIN",
@@ -23,6 +20,10 @@ export const loginUser = (username, password) => {
       })
       .catch((err) => {
         console.dir(err);
+        dispatch({
+          type: "USER_LOGIN_ERROR",
+          payload: err.response.data.detail,
+        });
       });
   };
 };
@@ -37,23 +38,23 @@ export const registerUser = (username, password, email, phone) => {
     })
       .then((result) => {
         console.dir(result);
-        localStorage.setItem(
-          "userToken",
-          JSON.stringify(result.data.data.token)
-        );
+        localStorage.setItem("userToken", result.data.data.token);
         dispatch({
           type: "USER_REGISTER",
           payload: result.data.data,
         });
       })
       .catch((err) => {
-        console.dir(err);
+        dispatch({
+          type: "USER_REGISTER_ERROR",
+          payload: err.response.data.detail,
+        });
       });
   };
 };
 
 export const logoutUser = () => {
-  localStorage.removeItem("userData");
+  localStorage.clear();
   return {
     type: "USER_LOGOUT",
   };

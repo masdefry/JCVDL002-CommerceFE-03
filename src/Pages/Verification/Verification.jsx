@@ -18,7 +18,7 @@ const Verification = () => {
         {},
         {
           headers: {
-            authorization: `Bearer ${params.token}`,
+            authorization: `${params.token}`,
           },
         }
       )
@@ -27,7 +27,7 @@ const Verification = () => {
         setMessage("Your account has been verified");
       })
       .catch((err) => console.log(err));
-  }, []);
+  });
 
   if (redirect) {
     return <Redirect to="/login" />;
