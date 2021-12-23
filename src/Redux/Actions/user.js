@@ -8,18 +8,14 @@ export const loginUser = (username, password) => {
       password,
     })
       .then((result) => {
-        if (result.data) {
-          console.log(result.data);
-          localStorage.setItem("userToken", result.data.data.token);
-
-          dispatch({
-            type: "USER_LOGIN",
-            payload: result.data.data,
-          });
-        }
+        localStorage.setItem("userToken", result.data.data.token);
+        dispatch({
+          type: "USER_LOGIN",
+          payload: result.data.data,
+        });
       })
       .catch((err) => {
-        console.dir(err);
+        console.dir(err.response);
         dispatch({
           type: "USER_LOGIN_ERROR",
           payload: err.response.data.detail,
@@ -37,11 +33,9 @@ export const registerUser = (username, password, email, phone) => {
       phone,
     })
       .then((result) => {
-        console.dir(result);
-        localStorage.setItem("userToken", result.data.data.token);
         dispatch({
           type: "USER_REGISTER",
-          payload: result.data.data,
+          payload: result.data.detail,
         });
       })
       .catch((err) => {
@@ -53,9 +47,30 @@ export const registerUser = (username, password, email, phone) => {
   };
 };
 
-export const logoutUser = () => {
+export const logoutUser = () => (dispatch) => {
   localStorage.clear();
-  return {
-    type: "USER_LOGOUT",
+  dispatch({ type: "USER_LOGOUT" });
+};
+
+export const userKeepLogin = (token) => {
+  return (dispatch) => {
+    Axios.get(`${urlAPI}/users`, {
+      headers: {
+        authorization: `${token}`,
+      },
+    })
+      .then((result) => {
+        dispatch({
+          type: "USER_LOGIN",
+          payload: result.data.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err.response);
+        dispatch({
+          type: "USER_LOGIN_ERROR",
+          payload: err.respose,
+        });
+      });
   };
 };

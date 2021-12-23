@@ -201,7 +201,10 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 .container-menu-desktop {
   height: auto;
   width: 100%;
-  position: relative;
+  position: fixed;
+  top: 0px;
+  z-index: 1100;
+  background-color: rgb(255, 255, 255);
   -webkit-transition: all 0.3s;
   -o-transition: all 0.3s;
   -moz-transition: all 0.3s;
@@ -216,8 +219,8 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   height: auto;
 }
 
-.header-v4 .container-menu-desktop {
-  height: 124px;
+.header-v4 {
+  height: 80px;
 }
 
 /*==================================================================
@@ -270,7 +273,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   background-color: transparent;
   width: 100%;
   height: 84px;
-  top: 40px;
+  top: 0px;
   left: 0px;
 
   -webkit-transition: height 0.3s, background-color 0.3s;
@@ -353,7 +356,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   display: block;
   position: relative;
   padding: 20px 10px 20px 0px;
-  margin: 0px 4px 0px 14px;
+  margin: 0px 8px 0px 18px;
 }
 
 .main-menu > li > a {
@@ -397,6 +400,16 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 }
 
 .sub-menu li {
+  position: relative;
+  background-color: transparent;
+
+  transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+}
+
+.sub-menu p {
   position: relative;
   background-color: transparent;
 
@@ -2985,11 +2998,11 @@ input.num-product::-webkit-inner-spin-button {
 
 /*---------------------------------------------*/
 .how-shadow1 {
-  box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.2);
-  -webkit-box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.2);
-  -o-box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.2);
-  -ms-box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0px 10px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 0px 10px 0px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 0px 10px 0px rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 0 0px 10px 0px rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 0 0px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
 /*---------------------------------------------*/

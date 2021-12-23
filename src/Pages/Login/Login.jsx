@@ -1,16 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faUnlock } from "@fortawesome/free-solid-svg-icons";
 import { loginUser } from "../../Redux/Actions/user";
 import { Link, Redirect } from "react-router-dom";
 import bg01 from "../../Supports/Images/bg-01.jpg";
-import Footer from "../../Components/Footer";
-import ForgetPassword from "../Change Password/ForgetPassword";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const schema = yup.object().shape({
+  username: yup.string().required(),
+  password: yup.string().min(6).max(32).required(),
+});
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const dataLogin = useSelector((state) => {
     return state.auth;
@@ -18,12 +30,19 @@ const Login = () => {
 
   const dispatch = useDispatch();
 
-  const handleSubmit = () => {
+  const loginBtn = ({ username, password }) => {
     dispatch(loginUser(username, password));
+    reset();
   };
 
+  // Cek jika sudah ada user token di local storage, tidak perlu register
+  const userToken = localStorage.getItem("userToken");
+  if (userToken) {
+    return <Redirect to="/" />;
+  }
+
   return (
-    <>
+    <div>
       <section
         class="bg-img1 txt-center p-lr-15 p-tb-92"
         style={{
@@ -43,45 +62,48 @@ const Login = () => {
               </div>
             ) : null}
 
-            <div className="bor8 m-b-20 how-pos4-parent">
-              <input
-                className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
-                type="text"
-                name="username"
-                placeholder="Your Username"
-                onChange={(event) => {
-                  setUsername(event.target.value);
-                }}
-              />
-              <span className="how-pos4 pointer-none">
-                <FontAwesomeIcon icon={faUser} />
-              </span>
-            </div>
+            <form onSubmit={handleSubmit(loginBtn)}>
+              <div className="bor8 m-b-20 how-pos4-parent">
+                <input
+                  className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
+                  type="text"
+                  name="username"
+                  placeholder="Your Username"
+                  required
+                  {...register("username")}
+                />
 
-            <div className="input-group bor8 m-b-30">
-              <input
-                className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
-                type="password"
-                name="password"
-                placeholder="Your Password"
-                onChange={(event) => {
-                  setPassword(event.target.value);
-                }}
-              />
-              <span className="how-pos4 pointer-none">
-                <FontAwesomeIcon icon={faUnlock} />
-              </span>
-            </div>
+                <span className="how-pos4 pointer-none">
+                  <FontAwesomeIcon icon={faUser} />
+                </span>
+              </div>
+              <p>{errors.username?.message}</p>
 
-            <p className="stext-115 cl6 txt-right">
-              <Link to="/forget-password" style={{ color: "#888" }}>
-                Forgot password?
-              </Link>
-            </p>
+              <div className="input-group bor8 m-b-30">
+                <input
+                  className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
+                  type="password"
+                  name="password"
+                  placeholder="Your Password"
+                  required
+                  {...register("password")}
+                />
 
-            <button
-              onClick={handleSubmit}
-              className="
+                <span className="how-pos4 pointer-none">
+                  <FontAwesomeIcon icon={faUnlock} />
+                </span>
+              </div>
+              <p>{errors.password?.message}</p>
+
+              <p className="stext-115 cl6 txt-right">
+                <Link to="/forget-password" style={{ color: "#888" }}>
+                  Forgot password?
+                </Link>
+              </p>
+
+              <button
+                type="submit"
+                className="
                   flex-c-m
                   stext-101
                   cl0
@@ -94,9 +116,10 @@ const Login = () => {
                   trans-04
                   pointer
                 "
-            >
-              Login
-            </button>
+              >
+                Login
+              </button>
+            </form>
 
             <p className="stext-115 cl6 size-213 ">
               <Link to="/register" style={{ color: "#888" }}>
@@ -120,8 +143,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <Footer />
-    </>
+    </div>
   );
 };
 

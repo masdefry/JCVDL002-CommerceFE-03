@@ -10,26 +10,49 @@ import {
   faPhone,
 } from "@fortawesome/free-solid-svg-icons";
 import bg01 from "../../Supports/Images/bg-01.jpg";
-import Footer from "../../Components/Footer";
+
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const schema = yup.object().shape({
+  username: yup.string().required(),
+  email: yup.string().email("Please input a valid email"),
+  password: yup.string().min(6).max(32).required(),
+  phone: yup.string().required(),
+});
 
 const Register = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState();
+  // const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [phone, setPhone] = useState();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const dataRegister = useSelector((state) => {
     return state.auth;
   });
   const dispatch = useDispatch();
 
-  if (dataRegister.username) {
-    return <Redirect to="/login" />;
-  }
-
-  const handleSubmit = () => {
+  const registerBtn = ({ username, password, email, phone }) => {
     dispatch(registerUser(username, password, email, phone));
+    alert(dataRegister.message);
+    reset();
   };
+
+  // Cek jika sudah ada user token di local storage, tidak perlu register
+  const userToken = localStorage.getItem("userToken");
+  if (userToken) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <>
@@ -41,74 +64,81 @@ const Register = () => {
       >
         <h2 class="ltext-105 cl0 txt-center">Register</h2>
       </section>
-      <div className="container m-t-80">
+      <div className="container m-tb-80">
         <div className="flex-w flex-tr">
           <div className="size-210 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md">
             <h4 className="mtext-105 cl2 txt-center p-b-30">Register</h4>
 
-            <div className="input-group bor8 m-b-30">
-              <input
-                className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
-                type="text"
-                name="email"
-                placeholder="Your Email"
-                onChange={(event) => {
-                  setEmail(event.target.value);
-                }}
-              />
-              <span className="how-pos4 pointer-none">
-                <FontAwesomeIcon icon={faEnvelope} />
-              </span>
-            </div>
+            {dataRegister.error || dataRegister.detail ? (
+              <div class="alert alert-danger" role="alert">
+                {dataRegister.error}
+              </div>
+            ) : null}
 
-            <div className="input-group bor8 m-b-30">
-              <input
-                className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
-                type="text"
-                name="username"
-                placeholder="Your Username"
-                onChange={(event) => {
-                  setUsername(event.target.value);
-                }}
-              />
-              <span className="how-pos4 pointer-none">
-                <FontAwesomeIcon icon={faUser} />
-              </span>
-            </div>
+            <form onSubmit={handleSubmit(registerBtn)}>
+              <p>{errors.email?.message}</p>
+              <div className="input-group bor8 m-b-30">
+                <input
+                  className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
+                  type="text"
+                  name="email"
+                  placeholder="Your Email"
+                  {...register("email")}
+                  required
+                />
+                <span className="how-pos4 pointer-none">
+                  <FontAwesomeIcon icon={faEnvelope} />
+                </span>
+              </div>
 
-            <div className="bor8 m-b-20 how-pos4-parent">
-              <input
-                className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
-                type="text"
-                name="phone"
-                placeholder="Your Phone Number"
-                onChange={(event) => {
-                  setPhone(event.target.value);
-                }}
-              />
-              <span className="how-pos4 pointer-none">
-                <FontAwesomeIcon icon={faPhone} />
-              </span>
-            </div>
+              <p>{errors.username?.message}</p>
+              <div className="input-group bor8 m-b-30">
+                <input
+                  className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
+                  type="text"
+                  name="username"
+                  placeholder="Your Username"
+                  {...register("username")}
+                  required
+                />
+                <span className="how-pos4 pointer-none">
+                  <FontAwesomeIcon icon={faUser} />
+                </span>
+              </div>
 
-            <div className="input-group bor8 m-b-30">
-              <input
-                className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
-                type="password"
-                name="password"
-                placeholder="Your Password"
-                onChange={(event) => {
-                  setPassword(event.target.value);
-                }}
-              />
-              <span className="how-pos4 pointer-none">
-                <FontAwesomeIcon icon={faUnlock} />
-              </span>
-            </div>
+              <p>{errors.phone?.message}</p>
+              <div className="bor8 m-b-20 how-pos4-parent">
+                <input
+                  className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
+                  type="text"
+                  name="phone"
+                  placeholder="Your Phone Number"
+                  {...register("phone")}
+                  required
+                />
+                <span className="how-pos4 pointer-none">
+                  <FontAwesomeIcon icon={faPhone} />
+                </span>
+              </div>
 
-            <button
-              className="
-                  
+              <p>{errors.password?.message}</p>
+              <div className="input-group bor8 m-b-30">
+                <input
+                  className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
+                  type="password"
+                  name="password"
+                  placeholder="Your Password"
+                  {...register("password")}
+                  required
+                />
+                <span className="how-pos4 pointer-none">
+                  <FontAwesomeIcon icon={faUnlock} />
+                </span>
+              </div>
+
+              <button
+                type="submit"
+                className="
                 flex-c-m
                   stext-101
                   cl0
@@ -120,10 +150,10 @@ const Register = () => {
                   m-tb-28
                   trans-04
                   pointer"
-              onClick={handleSubmit}
-            >
-              Register
-            </button>
+              >
+                Register
+              </button>
+            </form>
 
             <p className="stext-115 cl6 size-213 ">
               <Link to="/login" style={{ color: "#888" }}>
@@ -146,7 +176,6 @@ const Register = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

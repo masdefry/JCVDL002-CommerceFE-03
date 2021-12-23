@@ -3,7 +3,6 @@ import urlAPI from "../../Supports/Constants/UrlAPI";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import Footer from "../../Components/Footer";
 
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");
@@ -23,40 +22,41 @@ const ForgetPassword = () => {
   };
 
   return (
-    <div>
-      <div className="p-tb-92 justify-content-center col-md-4 offset-md-4 ">
-        <h2 className="m-b-20 txt-center">Forget your password?</h2>
-        <p className="m-b-40 txt-center">
-          Please input your email so we could send you the link to reset your
-          password
-        </p>
+    <div className="justify-content-center col-md-4 offset-md-4 p-tb-92">
+      <h2 className="mtext-105 cl2 txt-center m-b-20 txt-center">
+        Forget your password?
+      </h2>
+      <p className="m-b-40 txt-center">
+        Please input your email so we could send you the link to reset your
+        password
+      </p>
 
-        {message ? (
-          <div class="alert alert-secondary" role="alert">
-            {message}
-          </div>
-        ) : null}
-
-        <div className="bor8 m-b-40 how-pos4-parent">
-          <input
-            className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
-            type="text"
-            name="username"
-            placeholder="Your Email"
-            onChange={(event) => {
-              setEmail(event.target.value);
-            }}
-          />
-          <span className="how-pos4 pointer-none">
-            <FontAwesomeIcon icon={faEnvelope} />
-          </span>
+      {message ? (
+        <div class="alert alert-secondary" role="alert">
+          {message}
         </div>
+      ) : null}
 
-        <button
-          onClick={() => {
-            submitBtn(email);
+      <div className="bor8 m-b-40 how-pos4-parent">
+        <input
+          className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
+          type="text"
+          name="username"
+          placeholder="Your Email"
+          onChange={(event) => {
+            setEmail(event.target.value);
           }}
-          className="
+        />
+        <span className="how-pos4 pointer-none">
+          <FontAwesomeIcon icon={faEnvelope} />
+        </span>
+      </div>
+
+      <button
+        onClick={() => {
+          submitBtn(email);
+        }}
+        className="
                   flex-c-m
                   stext-101
                   cl0
@@ -65,16 +65,14 @@ const ForgetPassword = () => {
                   bor1
                   hov-btn3
                   p-lr-15
-                  m-t-40
+                  m-tb-40
                   trans-04
                   pointer
                   
                 "
-        >
-          Submit
-        </button>
-      </div>
-      <Footer />
+      >
+        Submit
+      </button>
     </div>
   );
 };

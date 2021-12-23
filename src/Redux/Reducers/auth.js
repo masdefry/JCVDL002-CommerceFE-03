@@ -4,6 +4,7 @@ const init_state = {
   user_role_id: 3,
   id: 0,
   token: "",
+  message: "",
   error: "",
   storageIsChecked: false,
 };
@@ -11,13 +12,13 @@ const init_state = {
 const auth = (state = init_state, action) => {
   switch (action.type) {
     case "USER_LOGIN":
-      return { ...init_state, ...action.payload };
+      return { ...state, ...action.payload };
     case "USER_LOGIN_ERROR":
-      return { ...init_state, error: action.payload };
+      return { ...state, error: action.payload };
     case "USER_REGISTER":
-      return { ...init_state, ...action.payload };
+      return { ...state, message: action.payload };
     case "USER_REGISTER_ERROR":
-      return { ...init_state, error: action.payload };
+      return { ...state, error: action.payload };
     case "USER_LOGOUT":
       return { ...init_state, storageIsChecked: true };
     default:

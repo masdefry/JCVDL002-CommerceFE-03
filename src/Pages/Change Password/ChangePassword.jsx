@@ -1,10 +1,9 @@
 import axios from "axios";
 import urlAPI from "../../Supports/Constants/UrlAPI";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faUnlock } from "@fortawesome/free-solid-svg-icons";
-import Footer from "../../Components/Footer";
+import { faUnlock } from "@fortawesome/free-solid-svg-icons";
 
 const ChangePassword = () => {
   const [password, setPassword] = useState("");
@@ -106,7 +105,6 @@ const ChangePassword = () => {
           Submit
         </button>
       </div>
-      <Footer />
     </div>
   );
 };
