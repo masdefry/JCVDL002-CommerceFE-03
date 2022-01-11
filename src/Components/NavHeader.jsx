@@ -17,8 +17,6 @@ const NavHeader = () => {
     dispatch(logoutUser());
   };
 
-  let token = localStorage.getItem("userToken");
-
   return (
     <div className="container-menu-desktop header-v4 how-shadow1">
       <div className="limiter-menu-desktop container">
@@ -32,11 +30,6 @@ const NavHeader = () => {
               <a href="index.html" className="m-r-18">
                 Home
               </a>
-              <ul className="sub-menu">
-                <li>
-                  <a href="/login">Homepage 1</a>
-                </li>
-              </ul>
             </li>
 
             <li>
@@ -87,7 +80,7 @@ const NavHeader = () => {
                       <a href="/user-profile">User Profile</a>
                     </li>
                     <li>
-                      <a href={`/change-password/${token}`}>Change Password</a>
+                      <a href={`/change-password`}>Change Password</a>
                     </li>
                     <li>
                       <a href="/" onClick={logOutBtn}>
@@ -98,11 +91,11 @@ const NavHeader = () => {
                 </li>
                 <li>
                   <a
-                    href="index.html"
+                    href="/cart"
                     className="m-l-30"
-                    style={{ fontSize: "20px" }}
+                    style={{ fontSize: "18px" }}
                   >
-                    <FontAwesomeIcon icon={faShoppingCart} />
+                    <FontAwesomeIcon icon={faShoppingCart} />{" "}
                   </a>
                 </li>
               </ul>

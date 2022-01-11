@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,7 +10,11 @@ import * as yup from "yup";
 
 const schema = yup.object().shape({
   username: yup.string().required(),
-  password: yup.string().min(6).max(32).required(),
+  password: yup
+    .string()
+    .min(6, "Must be at least 6 characters")
+    .max(32)
+    .required(),
 });
 
 const Login = () => {
@@ -56,13 +59,14 @@ const Login = () => {
           <div className="size-210 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md">
             <h4 className="mtext-105 cl2 txt-center p-b-30">Login</h4>
 
-            {dataLogin.error ? (
+            {dataLogin.error && (
               <div class="alert alert-danger" role="alert">
                 {dataLogin.error}
               </div>
-            ) : null}
+            )}
 
             <form onSubmit={handleSubmit(loginBtn)}>
+              <p style={{ color: "Red" }}>{errors.username?.message}</p>
               <div className="bor8 m-b-20 how-pos4-parent">
                 <input
                   className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
@@ -77,8 +81,8 @@ const Login = () => {
                   <FontAwesomeIcon icon={faUser} />
                 </span>
               </div>
-              <p>{errors.username?.message}</p>
 
+              <p style={{ color: "Red" }}>{errors.password?.message}</p>
               <div className="input-group bor8 m-b-30">
                 <input
                   className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
@@ -93,7 +97,6 @@ const Login = () => {
                   <FontAwesomeIcon icon={faUnlock} />
                 </span>
               </div>
-              <p>{errors.password?.message}</p>
 
               <p className="stext-115 cl6 txt-right">
                 <Link to="/forget-password" style={{ color: "#888" }}>

@@ -16,18 +16,17 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 const schema = yup.object().shape({
-  username: yup.string().required(),
+  username: yup.string().min(4, "Must be at least 4 characters").required(),
   email: yup.string().email("Please input a valid email"),
-  password: yup.string().min(6).max(32).required(),
-  phone: yup.string().required(),
+  password: yup
+    .string()
+    .min(6, "Must be at least 6 characters")
+    .max(32)
+    .required(),
+  phone: yup.number().min(6, "Must be at least 6 characters").typeError("Please input a valid phone number").required(),
 });
 
 const Register = () => {
-  // const [username, setUsername] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [phone, setPhone] = useState();
-
   const {
     register,
     handleSubmit,
@@ -76,8 +75,7 @@ const Register = () => {
             ) : null}
 
             <form onSubmit={handleSubmit(registerBtn)}>
-              <p>{errors.email?.message}</p>
-              <div className="input-group bor8 m-b-30">
+              <div className="input-group bor8">
                 <input
                   className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
                   type="text"
@@ -90,9 +88,9 @@ const Register = () => {
                   <FontAwesomeIcon icon={faEnvelope} />
                 </span>
               </div>
+              <p className="m-b-30 text-danger">{errors.email?.message}</p>
 
-              <p>{errors.username?.message}</p>
-              <div className="input-group bor8 m-b-30">
+              <div className="input-group bor8">
                 <input
                   className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
                   type="text"
@@ -105,9 +103,9 @@ const Register = () => {
                   <FontAwesomeIcon icon={faUser} />
                 </span>
               </div>
+              <p className="m-b-30 text-danger">{errors.username?.message}</p>
 
-              <p>{errors.phone?.message}</p>
-              <div className="bor8 m-b-20 how-pos4-parent">
+              <div className="bor8 how-pos4-parent">
                 <input
                   className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
                   type="text"
@@ -120,9 +118,9 @@ const Register = () => {
                   <FontAwesomeIcon icon={faPhone} />
                 </span>
               </div>
+              <p className="m-b-30 text-danger">{errors.phone?.message}</p>
 
-              <p>{errors.password?.message}</p>
-              <div className="input-group bor8 m-b-30">
+              <div className="input-group bor8 ">
                 <input
                   className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
                   type="password"
@@ -135,6 +133,7 @@ const Register = () => {
                   <FontAwesomeIcon icon={faUnlock} />
                 </span>
               </div>
+              <p className="m-b-30 text-danger">{errors.password?.message}</p>
 
               <button
                 type="submit"

@@ -1,7 +1,7 @@
 import axios from "axios";
 import urlAPI from "../../Supports/Constants/UrlAPI";
 import { useState } from "react";
-
+import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUnlock } from "@fortawesome/free-solid-svg-icons";
 
@@ -10,12 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 const schema = yup.object().shape({
-  oldPassword: yup
-    .string()
-    .min(6, "Must be at least 6 characters")
-    .max(32)
-    .required(),
-  newPassword: yup
+  password: yup
     .string()
     .min(6, "Must be at least 6 characters")
     .max(32)
@@ -27,7 +22,7 @@ const schema = yup.object().shape({
     .required(),
 });
 
-const ChangePassword = () => {
+const VerifyForgetPassword = () => {
   const {
     register,
     handleSubmit,
@@ -40,14 +35,16 @@ const ChangePassword = () => {
   const [message, setMessage] = useState("");
   const [errMessage, setErrMessage] = useState("");
 
-  const submitBtn = ({ oldPassword, newPassword, confirmPassword }) => {
-    const token = localStorage.getItem("userToken");
+  const params = useParams();
 
-    if (newPassword === confirmPassword) {
+  const submitBtn = ({ password, confirmPassword }) => {
+    const token = params.token;
+
+    if (password === confirmPassword) {
       axios
         .patch(
-          `${urlAPI}/users/change-password`,
-          { oldPassword, newPassword },
+          `${urlAPI}/users/verify-forget-password`,
+          { password },
           {
             headers: {
               authorization: `${token}`,
@@ -70,49 +67,33 @@ const ChangePassword = () => {
   return (
     <div>
       <div className="justify-content-center col-md-4 offset-md-4 p-tb-92">
-        <h2 className="mtext-105 cl2 txt-center m-b-40 txt-center">
+        <h2 className="mtext-105 cl2 txt-center m-b-20 txt-center">
           Change Password
         </h2>
-
         {message && <div className="alert alert-success">{message}</div>}
         {errMessage && <div className="alert alert-danger">{errMessage}</div>}
 
         <form onSubmit={handleSubmit(submitBtn)}>
-          <div className="bor8 how-pos4-parent ">
-            <input
-              className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
-              type="password"
-              name="oldPassword"
-              placeholder="Your Old Password"
-              required
-              {...register("oldPassword")}
-            />
-            <span className="how-pos4 pointer-none">
-              <FontAwesomeIcon icon={faUnlock} />
-            </span>
-          </div>
-          <p className="m-b-20 text-danger">{errors.oldPassword?.message}</p>
-
-          <div className="bor8 how-pos4-parent ">
-            <input
-              className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
-              type="password"
-              name="newPassword"
-              placeholder="Your New Password"
-              required
-              {...register("newPassword")}
-            />
-            <span className="how-pos4 pointer-none">
-              <FontAwesomeIcon icon={faUnlock} />
-            </span>
-          </div>
-          <p className=" m-b-20 text-danger">{errors.newPassword?.message}</p>
-
-          <div className="bor8  how-pos4-parent ">
+          <div className="bor8 m-t-40 how-pos4-parent ">
             <input
               className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
               type="password"
               name="password"
+              placeholder="Your New Password"
+              required
+              {...register("password")}
+            />
+            <span className="how-pos4 pointer-none">
+              <FontAwesomeIcon icon={faUnlock} />
+            </span>
+          </div>
+          <p className="m-b-20 text-danger">{errors.password?.message}</p>
+
+          <div className="bor8 how-pos4-parent ">
+            <input
+              className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
+              type="password"
+              name="confirmPassword"
               placeholder="Confirm Your New Password"
               required
               {...register("confirmPassword")}
@@ -121,7 +102,7 @@ const ChangePassword = () => {
               <FontAwesomeIcon icon={faUnlock} />
             </span>
           </div>
-          <p className=" m-b-40 text-danger">
+          <p className="m-b-40 text-danger">
             {errors.confirmPassword?.message}
           </p>
 
@@ -149,4 +130,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default VerifyForgetPassword;
