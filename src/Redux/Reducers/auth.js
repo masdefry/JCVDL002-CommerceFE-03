@@ -18,7 +18,7 @@ const auth = (state = init_state, action) => {
     case "USER_REGISTER":
       return { ...state, message: action.payload };
     case "USER_REGISTER_ERROR":
-      return { ...state, error: action.payload };
+      return { ...state, message: action.payload };
     case "USER_LOGOUT":
       return { ...init_state, storageIsChecked: true };
     default:

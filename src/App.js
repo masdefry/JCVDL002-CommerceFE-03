@@ -18,6 +18,9 @@ import ChangePassword from "./Pages/Change Password/ChangePassword";
 import UserProfile from "./Pages/User Profile/UserProfile";
 import Cart from "./Pages/Cart/Cart";
 import Payment from "./Pages/Payment/Payment";
+import Home from "./Pages/Landing Page/Home";
+import ProductDetail from "./Pages/Product Detail/ProductDetail";
+import ProductList from "./Pages/Product List/ProductList";
 
 // Import components
 import NavHeader from "./Components/NavHeader";
@@ -41,6 +44,8 @@ function App() {
     <BrowserRouter>
       <NavHeader />
       <Switch>
+        <Route component={ProductDetail} path="/product-detail/:id" />
+        <Route component={ProductList} path="/products" />
         <Route component={Login} path="/login" />
         <Route component={Register} path="/register" />
         <Route component={Verification} path="/verification/:token" />
@@ -52,7 +57,8 @@ function App() {
         <Route component={ChangePassword} path="/change-password" />
         <Route component={UserProfile} path="/user-profile" />
         <Route component={Cart} path="/cart" />
-        <Route component={Payment} path="/payment" />
+        <Route component={Payment} path="/payment/:transaction_id" />
+        <Route component={Home} path="/" />
       </Switch>
       <Footer />
     </BrowserRouter>

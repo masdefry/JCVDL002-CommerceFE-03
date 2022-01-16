@@ -23,7 +23,11 @@ const schema = yup.object().shape({
     .min(6, "Must be at least 6 characters")
     .max(32)
     .required(),
-  phone: yup.number().min(6, "Must be at least 6 characters").typeError("Please input a valid phone number").required(),
+  phone: yup
+    .number()
+    .min(6, "Must be at least 6 characters")
+    .typeError("Please input a valid phone number")
+    .required(),
 });
 
 const Register = () => {
@@ -43,7 +47,7 @@ const Register = () => {
 
   const registerBtn = ({ username, password, email, phone }) => {
     dispatch(registerUser(username, password, email, phone));
-    alert(dataRegister.message);
+    console.log(dataRegister);
     reset();
   };
 
@@ -68,9 +72,9 @@ const Register = () => {
           <div className="size-210 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md">
             <h4 className="mtext-105 cl2 txt-center p-b-30">Register</h4>
 
-            {dataRegister.error || dataRegister.detail ? (
+            {dataRegister.message ? (
               <div class="alert alert-danger" role="alert">
-                {dataRegister.error}
+                {dataRegister.message}
               </div>
             ) : null}
 

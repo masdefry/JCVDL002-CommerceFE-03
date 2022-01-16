@@ -20,46 +20,46 @@ const NavHeader = () => {
   return (
     <div className="container-menu-desktop header-v4 how-shadow1">
       <div className="limiter-menu-desktop container">
-        <a href="#" className="logo">
+        <a href="/" className="logo">
           <img src={logo1} alt="IMG-LOGO" />
         </a>
 
         <div className="menu-desktop ">
           <ul className="main-menu ">
             <li>
-              <a href="index.html" className="m-r-18">
+              <a href="/" className="m-r-18">
                 Home
               </a>
             </li>
 
             <li>
-              <a href="product.html" className="m-r-18">
+              <a href="/products" className="m-r-18">
                 Shop
               </a>
             </li>
 
             <li>
-              <a href="shoping-cart.html" className="m-r-18">
+              <a href="/transaction" className="m-r-18">
                 History
               </a>
             </li>
 
             {dataUser.user_role_id === 3 ? null : (
               <li>
-                <a href="blog.html" className="m-r-18">
+                <a href="/" className="m-r-18">
                   Admin
                 </a>
               </li>
             )}
 
             <li>
-              <a href="about.html" className="m-r-18">
+              <a href="a/" className="m-r-18">
                 About
               </a>
             </li>
 
             <li>
-              <a href="contact.html" className="m-r-18">
+              <a href="/" className="m-r-18">
                 Contact
               </a>
             </li>

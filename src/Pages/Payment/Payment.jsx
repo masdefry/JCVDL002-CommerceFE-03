@@ -4,15 +4,17 @@ import { useEffect, useState } from "react";
 import { useParams, Redirect } from "react-router-dom";
 
 const Payment = () => {
-  const [fileName, setFileName] = useState("");
   const [file, setFile] = useState();
 
+  const params = useParams();
+
   const token = localStorage.getItem("userToken");
+  const transaction_id = params.transaction_id;
 
   const fileUploadHandler = (e) => {
     if (e.target.files[0]) {
-      setFileName(`${new Date()}`);
       setFile(e.target.files[0]);
+
       let preview = document.getElementById("imgpreview");
       preview.src = URL.createObjectURL(e.target.files[0]);
     }
@@ -23,16 +25,21 @@ const Payment = () => {
       let formData = new FormData();
 
       let obj = {
-        proof: fileName,
-        transactionId: 7,
+        transaction_id,
       };
 
       formData.append("data", JSON.stringify(obj));
       formData.append("file", file);
 
-      Axios.post(`${urlAPI}/upload`, formData)
+      Axios.post(`${urlAPI}/upload/payment`, formData, {
+        headers: {
+          authorization: `${token}`,
+        },
+      })
         .then((result) => {
-          alert("File has been uploaded");
+          alert(
+            "File has been uploaded, please wait while we verify your payment"
+          );
         })
         .catch((err) => {
           console.log(err);

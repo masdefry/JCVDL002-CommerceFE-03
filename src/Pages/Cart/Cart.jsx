@@ -159,10 +159,10 @@ const Cart = () => {
       }
     )
       .then((result) => {
-        return <Redirect to="/payment" />;
+        return <Redirect to={`/payment/${result.data.transaction_id}`} />;
       })
       .catch((err) => {
-        console.log(err);
+        console.dir(err);
       });
   };
 
@@ -187,12 +187,6 @@ const Cart = () => {
 
                 {renderCart()}
               </table>
-            </div>
-
-            <div className="flex-w flex-r-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
-              <div className="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">
-                Update Cart
-              </div>
             </div>
           </div>
         </div>
@@ -220,14 +214,7 @@ const Cart = () => {
 
               <div className="size-209 p-r-18 p-r-0-sm w-full-ssm">
                 <div className="p-t-15">
-                  <Form>
-                    {renderAddress()}
-                    <div className="flex-w">
-                      <div className="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-                        Update Totals
-                      </div>
-                    </div>
-                  </Form>
+                  <Form>{renderAddress()}</Form>
                 </div>
               </div>
             </div>
