@@ -39,7 +39,7 @@ const NavHeader = () => {
             </li>
 
             <li>
-              <a href="/transaction" className="m-r-18">
+              <a href="/history-transaction" className="m-r-18">
                 History
               </a>
             </li>

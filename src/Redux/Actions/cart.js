@@ -9,9 +9,21 @@ export const getCartData = (userToken) => {
       },
     })
       .then((result) => {
+        let subtotal = 0;
+        for (let i = 0; i < result.data.cartData.length; i++) {
+          console.log("result.data.cartData", result.data.cartData[i]);
+          subtotal +=
+            result.data.cartData[i].product_price * result.data.cartData[i].qty;
+        }
+        console.log("subtotal", subtotal);
+        console.log("result.data", result.data);
         dispatch({
           type: "FILL_CART",
           payload: result.data.cartData,
+        });
+        dispatch({
+          type: "CART_TOTAL",
+          payload: subtotal,
         });
       })
       .catch((err) => {

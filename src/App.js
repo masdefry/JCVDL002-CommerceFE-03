@@ -21,6 +21,7 @@ import Payment from "./Pages/Payment/Payment";
 import Home from "./Pages/Landing Page/Home";
 import ProductDetail from "./Pages/Product Detail/ProductDetail";
 import ProductList from "./Pages/Product List/ProductList";
+import HistoryTransaction from "./Pages/History Transaction/HistoryTransaction";
 
 // Import components
 import NavHeader from "./Components/NavHeader";
@@ -29,6 +30,7 @@ import Footer from "./Components/Footer";
 // Import action
 import { userKeepLogin } from "./Redux/Actions/user";
 import { getCartData } from "./Redux/Actions/cart";
+import { getUserAddress } from "./Redux/Actions/address";
 
 function App() {
   const token = localStorage.getItem("userToken");
@@ -38,6 +40,7 @@ function App() {
   useEffect(() => {
     dispatch(userKeepLogin(token));
     dispatch(getCartData(token));
+    dispatch(getUserAddress(token));
   }, []);
 
   return (
@@ -58,6 +61,7 @@ function App() {
         <Route component={UserProfile} path="/user-profile" />
         <Route component={Cart} path="/cart" />
         <Route component={Payment} path="/payment/:transaction_id" />
+        <Route component={HistoryTransaction} path="/history-transaction" />
         <Route component={Home} path="/" />
       </Switch>
       <Footer />
