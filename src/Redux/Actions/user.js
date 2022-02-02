@@ -9,6 +9,7 @@ export const loginUser = (username, password) => {
     })
       .then((result) => {
         localStorage.setItem("userToken", result.data.data.token);
+        localStorage.setItem("userRole", result.data.data.user_role_id);
         dispatch({
           type: "USER_LOGIN",
           payload: result.data.data,

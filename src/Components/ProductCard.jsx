@@ -15,22 +15,24 @@ const ProductCard = ({ id, name, price, image }) => {
   const addToCartBtn = () => {
     if (!token) {
       setModal(true);
+      console.log("setModal : ", modal);
+    } else {
+      Axios.post(
+        `${urlAPI}/carts`,
+        { qty: 1, product_id: id },
+        {
+          headers: {
+            authorization: `${token}`,
+          },
+        }
+      )
+        .then((result) => {
+          alert("Product has been added to cart");
+        })
+        .catch((err) => {
+          setModal(true);
+        });
     }
-    Axios.post(
-      `${urlAPI}/carts`,
-      { qty: 1, product_id: id },
-      {
-        headers: {
-          authorization: `${token}`,
-        },
-      }
-    )
-      .then((result) => {
-        alert("Product has been added to cart");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   return (
@@ -79,7 +81,7 @@ const ProductCard = ({ id, name, price, image }) => {
               {name}
             </a>
 
-            <span className="stext-105 cl3">Rp {price}</span>
+            <span className="stext-105 cl3">Rp {price.toLocaleString()}</span>
           </div>
 
           <div className="block2-txt-child2 flex-r p-t-3">

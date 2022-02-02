@@ -22,6 +22,10 @@ import Home from "./Pages/Landing Page/Home";
 import ProductDetail from "./Pages/Product Detail/ProductDetail";
 import ProductList from "./Pages/Product List/ProductList";
 import HistoryTransaction from "./Pages/History Transaction/HistoryTransaction";
+import PaymentVerification from "./Pages/Verify Payment/PaymentVerification";
+import ManageProduct from "./Pages/Manage Product/ManageProduct";
+import EditProduct from "./Pages/Manage Product/EditProduct";
+import AddProduct from "./Pages/Manage Product/AddProduct";
 
 // Import components
 import NavHeader from "./Components/NavHeader";
@@ -62,6 +66,10 @@ function App() {
         <Route component={Cart} path="/cart" />
         <Route component={Payment} path="/payment/:transaction_id" />
         <Route component={HistoryTransaction} path="/history-transaction" />
+        <Route component={PaymentVerification} path="/verify-payment" />
+        <Route component={EditProduct} path="/manage-products/:id" />
+        <Route component={ManageProduct} path="/manage-products" />
+        <Route component={AddProduct} path="/add-product" />
         <Route component={Home} path="/" />
       </Switch>
       <Footer />

@@ -66,8 +66,7 @@ const Login = () => {
             )}
 
             <form onSubmit={handleSubmit(loginBtn)}>
-              <p style={{ color: "Red" }}>{errors.username?.message}</p>
-              <div className="bor8 m-b-20 how-pos4-parent">
+              <div className="bor8 how-pos4-parent">
                 <input
                   className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
                   type="text"
@@ -81,9 +80,9 @@ const Login = () => {
                   <FontAwesomeIcon icon={faUser} />
                 </span>
               </div>
+              <p className="text-danger m-b-20 ">{errors.username?.message}</p>
 
-              <p style={{ color: "Red" }}>{errors.password?.message}</p>
-              <div className="input-group bor8 m-b-30">
+              <div className="input-group bor8">
                 <input
                   className="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
                   type="password"
@@ -97,6 +96,7 @@ const Login = () => {
                   <FontAwesomeIcon icon={faUnlock} />
                 </span>
               </div>
+              <p className="m-b-30 text-danger">{errors.password?.message}</p>
 
               <p className="stext-115 cl6 txt-right">
                 <Link to="/forget-password" style={{ color: "#888" }}>

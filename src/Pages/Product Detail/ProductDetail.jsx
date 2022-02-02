@@ -7,7 +7,9 @@ import ImageCarousel from "../../Components/ImageCarousel";
 
 const ProductDetail = () => {
   const [qty, setQty] = useState(1);
-  const [productData, setProductData] = useState({});
+  const [productData, setProductData] = useState({
+    product_price: 0,
+  });
   const [image, setImage] = useState([]);
   const [productNotFound, setProductNotFound] = useState(false);
 
@@ -63,6 +65,7 @@ const ProductDetail = () => {
       })
       .catch((err) => {
         console.log(err.data);
+        setModal(true);
       });
   };
 
@@ -118,7 +121,7 @@ const ProductDetail = () => {
                 </h4>
 
                 <span className="mtext-106 cl2">
-                  Rp {productData.product_price}
+                  Rp {productData.product_price.toLocaleString()}
                 </span>
 
                 <p className="stext-102 cl3 p-t-23">

@@ -38,17 +38,27 @@ const NavHeader = () => {
               </a>
             </li>
 
-            <li>
-              <a href="/history-transaction" className="m-r-18">
-                History
-              </a>
-            </li>
+            {dataUser.username && (
+              <li>
+                <a href="/history-transaction" className="m-r-18">
+                  History
+                </a>
+              </li>
+            )}
 
             {dataUser.user_role_id === 3 ? null : (
-              <li>
-                <a href="/" className="m-r-18">
+              <li className="main-menu ">
+                <a href="/verify-payment" className="m-r-18">
                   Admin
                 </a>
+                <ul className="sub-menu">
+                  <li>
+                    <a href="/verify-payment">Verify Payment</a>
+                  </li>
+                  <li>
+                    <a href="/manage-products">Manage Products</a>
+                  </li>
+                </ul>
               </li>
             )}
 

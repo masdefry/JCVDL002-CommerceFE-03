@@ -1,7 +1,7 @@
 import Axios from "axios";
 import urlAPI from "../../Supports/Constants/UrlAPI";
 import { useEffect, useState } from "react";
-import { Form, FormGroup, Label, Input } from "reactstrap";
+import { FormGroup, Label, Input } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import ProductCard from "../../Components/ProductCard";
@@ -30,7 +30,7 @@ const ProductList = () => {
       .catch((err) => {
         console.dir(err);
       });
-  }, [page, filter, searchProductName]);
+  }, [page]);
 
   const renderProductList = () => {
     if (productList) {
@@ -102,51 +102,70 @@ const ProductList = () => {
     });
   };
 
+  const searchProductBtn = () => {
+    Axios.get(
+      `${urlAPI}/products?page=${page}&category=${filter.category}&gender=${filter.gender}&sortBy=${filter.sortBy}&searchName=${searchProductName}`
+    )
+      .then((result) => {
+        console.log(result.data.data);
+        setPage(1);
+        setProductList(result.data.data);
+        setMaxPage(result.data.maxPage);
+      })
+      .catch((err) => {
+        console.dir(err);
+      });
+  };
+
   return (
     <div className="bg0 m-t-53 p-b-140">
       <div className="container">
         <div className="flex-w flex-sb-m p-b-52">
           <div className="panel-filter w-full p-t-10">
-            <Form>
-              <div className="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
-                <div className="panel-search w-full p-t-10 p-b-15 m-b-20">
-                  <div className="bor8 dis-flex p-l-15 ">
-                    <button className="size-113 flex-c-m fs-20 cl2 m-r-10">
-                      <FontAwesomeIcon icon={faSearch} />
-                    </button>
+            <div className="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
+              <div className="panel-search w-full p-t-10 p-b-15 m-b-20">
+                <div className="bor8 dis-flex p-l-15 ">
+                  <button className="size-113 flex-c-m fs-20 cl2 m-r-10">
+                    <FontAwesomeIcon icon={faSearch} />
+                  </button>
 
-                    <input
-                      className="mtext-107 cl2 size-114 plh2 p-lr-20"
-                      type="text"
-                      placeholder="Search"
-                      onChange={(e) => {
-                        setSeacrhProductName(e.target.value);
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="filter-col1 p-r-15 p-b-27">
-                  <div className="mtext-102 cl2 p-b-15">Sort By</div>
-                  <FormGroup type="fieldset">
-                    {renderFilter("sortBy", sortList)}
-                  </FormGroup>
-                </div>
-
-                <div className="filter-col1 p-r-15 p-b-27">
-                  <div className="mtext-102 cl2 p-b-15">Category</div>
-                  <FormGroup type="fieldset">
-                    {renderFilter("category", categoryList)}
-                  </FormGroup>
-                </div>
-
-                <div className="filter-col1 p-r-15 p-b-27">
-                  <div className="mtext-102 cl2 p-b-15">Gender</div>
-                  <FormGroup type="fieldset">
-                    {renderFilter("gender", genderList)}
-                  </FormGroup>
+                  <input
+                    className="mtext-107 cl2 size-114 plh2 p-lr-20"
+                    type="text"
+                    placeholder="Search"
+                    onChange={(e) => {
+                      setSeacrhProductName(e.target.value);
+                    }}
+                  />
                 </div>
               </div>
-            </Form>
+              <div className="filter-col1 p-r-15 p-b-27">
+                <div className="mtext-102 cl2 p-b-15">Sort By</div>
+                <FormGroup type="fieldset">
+                  {renderFilter("sortBy", sortList)}
+                </FormGroup>
+              </div>
+
+              <div className="filter-col1 p-r-15 p-b-27">
+                <div className="mtext-102 cl2 p-b-15">Category</div>
+                <FormGroup type="fieldset">
+                  {renderFilter("category", categoryList)}
+                </FormGroup>
+              </div>
+
+              <div className="filter-col1 p-r-15 p-b-27">
+                <div className="mtext-102 cl2 p-b-15">Gender</div>
+                <FormGroup type="fieldset">
+                  {renderFilter("gender", genderList)}
+                </FormGroup>
+              </div>
+              <button
+                className="flex-c-m stext-101 cl0 size-103 bg3 bor1 hov-btn3 p-lr-15 trans-04"
+                onClick={searchProductBtn}
+              >
+                Search
+              </button>
+            </div>
           </div>
         </div>
 

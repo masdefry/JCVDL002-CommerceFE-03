@@ -1,8 +1,9 @@
-import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { registerUser } from "../../Redux/Actions/user";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
   faUser,
   faUnlock,
@@ -10,6 +11,7 @@ import {
   faPhone,
 } from "@fortawesome/free-solid-svg-icons";
 import bg01 from "../../Supports/Images/bg-01.jpg";
+import { Modal, ModalBody } from "reactstrap";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -40,6 +42,10 @@ const Register = () => {
     resolver: yupResolver(schema),
   });
 
+  const [modal, setModal] = useState(false);
+
+  const toggle = () => setModal(!modal);
+
   const dataRegister = useSelector((state) => {
     return state.auth;
   });
@@ -48,6 +54,7 @@ const Register = () => {
   const registerBtn = ({ username, password, email, phone }) => {
     dispatch(registerUser(username, password, email, phone));
     console.log(dataRegister);
+    setModal(true);
     reset();
   };
 
@@ -67,16 +74,27 @@ const Register = () => {
       >
         <h2 class="ltext-105 cl0 txt-center">Register</h2>
       </section>
+
       <div className="container m-tb-80">
         <div className="flex-w flex-tr">
           <div className="size-210 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md">
             <h4 className="mtext-105 cl2 txt-center p-b-30">Register</h4>
 
-            {dataRegister.message ? (
-              <div class="alert alert-danger" role="alert">
-                {dataRegister.message}
-              </div>
-            ) : null}
+            {modal && (
+              <Modal
+                isOpen={modal}
+                toggle={toggle}
+                modalTransition={{ timeout: 100 }}
+                centered={true}
+              >
+                <ModalBody>
+                  <p className="stext-104 cl2">
+                    {dataRegister.error && dataRegister.error}
+                    {dataRegister.message && dataRegister.message}
+                  </p>
+                </ModalBody>
+              </Modal>
+            )}
 
             <form onSubmit={handleSubmit(registerBtn)}>
               <div className="input-group bor8">
