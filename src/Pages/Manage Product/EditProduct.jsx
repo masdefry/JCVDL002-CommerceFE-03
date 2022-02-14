@@ -81,7 +81,7 @@ const EditProduct = () => {
   return (
     <div className="container m-t-70 ">
       <div className="row justify-content-center">
-        <div className="col-9 m-tb-70">
+        <div className="col-xl-9 col-m-12 m-tb-70">
           <div className="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-lr-0-xl p-lr-15-sm">
             <h4 className="mtext-109 cl2 p-b-30">Edit Product</h4>
 

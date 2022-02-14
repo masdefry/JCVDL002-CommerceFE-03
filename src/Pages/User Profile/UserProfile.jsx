@@ -6,15 +6,18 @@ import { Form, FormGroup, Label, Input } from "reactstrap";
 import { getUserAddress } from "../../Redux/Actions/address";
 
 const UserProfile = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [verification, setVerification] = useState();
-  const [fisrtName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [birthdate, setBirthdate] = useState("");
-  const [gender, setGender] = useState();
-  const [userRole, setUserRole] = useState();
+  const [userProfile, setUserProfile] = useState({
+    username: "",
+    email: "",
+    phone: "",
+    verification: 0,
+    fisrtName: "",
+    lastName: "",
+    birthdate: "",
+    gender: 0,
+    userRole: 3,
+    editToggle: 0,
+  });
 
   const [addAddress, setAddAddress] = useState({
     toggle: false,
@@ -38,15 +41,17 @@ const UserProfile = () => {
     })
       .then((result) => {
         let data = result.data.data;
-        setUsername(data.username);
-        setEmail(data.email);
-        setPhone(data.phone);
-        setVerification(data.verification_status);
-        setFirstName(data.first_name);
-        setLastName(data.last_name);
-        setUserRole(data.user_role_id);
-        setBirthdate(data.birthdate);
-        setGender(data.gender);
+        setUserProfile({
+          username: data.username,
+          email: data.email,
+          phone: data.phone,
+          verification: data.verification_status,
+          fisrtName: data.first_name,
+          lastName: data.last_name,
+          birthdate: data.birthdate,
+          gender: data.gender,
+          userRole: data.user_role_id,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -132,7 +137,7 @@ const UserProfile = () => {
               </div>
 
               <div className="size-209">
-                <span className="stext-111 cl8">{email}</span>
+                <span className="stext-111 cl8">{userProfile.email}</span>
               </div>
             </div>
 
@@ -142,7 +147,7 @@ const UserProfile = () => {
               </div>
 
               <div className="size-209">
-                <span className="stext-111 cl8">{username}</span>
+                <span className="stext-111 cl8">{userProfile.username}</span>
               </div>
             </div>
 
@@ -152,7 +157,7 @@ const UserProfile = () => {
               </div>
 
               <div className="size-209">
-                <span className="stext-111 cl8">{phone}</span>
+                <span className="stext-111 cl8">{userProfile.phone}</span>
               </div>
             </div>
 
@@ -163,7 +168,7 @@ const UserProfile = () => {
 
               <div className="size-209">
                 <span className="stext-111 cl8">
-                  {verification ? "Verified" : "Not Verified"}
+                  {userProfile.verification ? "Verified" : "Not Verified"}
                 </span>
               </div>
             </div>
@@ -174,7 +179,7 @@ const UserProfile = () => {
               </div>
 
               <div className="size-209">
-                <span className="stext-111 cl8">{fisrtName}</span>
+                <span className="stext-111 cl8">{userProfile.fisrtName}</span>
               </div>
             </div>
 
@@ -184,7 +189,7 @@ const UserProfile = () => {
               </div>
 
               <div className="size-209">
-                <span className="stext-111 cl8">{lastName}</span>
+                <span className="stext-111 cl8">{userProfile.lastName}</span>
               </div>
             </div>
 
@@ -194,7 +199,7 @@ const UserProfile = () => {
               </div>
 
               <div className="size-209">
-                <span className="stext-111 cl8">{birthdate}</span>
+                <span className="stext-111 cl8">{userProfile.birthdate}</span>
               </div>
             </div>
 
@@ -204,7 +209,14 @@ const UserProfile = () => {
               </div>
 
               <div className="size-209">
-                <span className="stext-111 cl8">{gender}</span>
+                <span className="stext-111 cl8">
+                  {userProfile.gender === 1 && userProfile.gender
+                    ? "Male"
+                    : null}{" "}
+                  {userProfile.gender === 2 && userProfile.gender
+                    ? "Female"
+                    : null}
+                </span>
               </div>
             </div>
 
@@ -214,7 +226,7 @@ const UserProfile = () => {
               </div>
 
               <div className="size-209">
-                <span className="stext-111 cl8">{email}</span>
+                <span className="stext-111 cl8">{userProfile.email}</span>
               </div>
             </div>
 

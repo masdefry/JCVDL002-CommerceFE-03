@@ -4,6 +4,7 @@ import urlAPI from "../../Supports/Constants/UrlAPI";
 
 const HistoryTransaction = () => {
   const [transactionList, setTransactionList] = useState([]);
+  const [ongoingTrans, setOngoingTrans] = useState([]);
   const [transactionDetails, setTransactionDetails] = useState([]);
 
   const token = localStorage.getItem("userToken");
@@ -20,7 +21,41 @@ const HistoryTransaction = () => {
       .catch((err) => {
         console.log(err);
       });
+
+    Axios.get(`${urlAPI}/transaction/ongoing/user`, {
+      headers: {
+        authorization: `${token}`,
+      },
+    })
+      .then((result) => {
+        setOngoingTrans(result.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
+
+  const renderOngoingTransaction = () => {
+    return ongoingTrans.map((data) => {
+      console.log(data);
+      return data.transaction_detail.map((product) => {
+        return (
+          <tr className="">
+            <td className="p-l-40 p-tb-30">
+              {data.transaction_date.slice(0, 10)}
+            </td>
+            <td className="text-center">{product.product_name}</td>
+            <td className="text-center">{product.price}</td>
+            <td className="text-center">{product.product_qty}</td>
+            <td className="text-center">
+              {product.price * product.product_qty}
+            </td>
+            <td className="text-center">Waiting for payment verification</td>
+          </tr>
+        );
+      });
+    });
+  };
 
   const renderTransactionList = () => {
     return transactionList.map((data) => {
@@ -62,6 +97,24 @@ const HistoryTransaction = () => {
   return (
     <div className="container m-tb-80">
       <div className="row">
+        {ongoingTrans.length ? (
+          <div className="m-b-50 m-t-100">
+            <div className="bor10 p-lr-40 p-t-30 m-lr-0-xl p-lr-15-sm">
+              <h4 className="mtext-109 cl2 p-b-30">Ongoing Transaction</h4>
+            </div>
+            <table className="table-shopping-cart bor10 ">
+              <tr className="table_head">
+                <th className="p-l-40">Date</th>
+                <th className="text-center">Product</th>
+                <th className="text-center">Price</th>
+                <th className="text-center">Quantity</th>
+                <th className="text-center">Total</th>
+                <th className="text-center">Status</th>
+              </tr>
+              {renderOngoingTransaction()}
+            </table>
+          </div>
+        ) : null}
         <div className="col-sm-10 col-lg-7 col-xl-5 m-b-50 m-t-100">
           <div className="bor10 p-lr-40 p-t-30 m-lr-0-xl p-lr-15-sm">
             <h4 className="mtext-109 cl2 p-b-30">Transaction History</h4>
@@ -71,7 +124,7 @@ const HistoryTransaction = () => {
               <th className="column-3 p-l-40">Date</th>
               <th className="column-3">Items</th>
               <th className="column-3">Price</th>
-              <th className="column-3"></th>
+              <th className="column-3">Status</th>
             </tr>
             {renderTransactionList()}
           </table>

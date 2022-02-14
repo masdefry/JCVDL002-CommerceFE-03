@@ -650,9 +650,13 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   display: -ms-flexbox;
   display: flex;
   align-items: center;
-  height: 70px;
+
+  width: 100%;
   background-color: #fff;
   padding: 15px;
+  position: fixed;
+  top: 0px;
+  z-index: 1100;
   display: none;
 
   box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.2);
